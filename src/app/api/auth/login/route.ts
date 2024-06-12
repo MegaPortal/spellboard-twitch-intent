@@ -44,7 +44,7 @@ export async function GET(req: Request) {
         status: 200,
         headers: {
             'Content-Type': 'application/json',
-            'Set-Cookie': `twitch_session=${encodeURIComponent(loginInfoBuffer)}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${expiresIn}`,
+            'Set-Cookie': `twitch_session=${encodeURIComponent(loginInfoBuffer)}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${expiresIn}`,
         },
     })
 }
