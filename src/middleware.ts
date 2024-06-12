@@ -7,22 +7,47 @@ import { NextResponse, NextRequest } from 'next/server';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function middleware(request: NextRequest) {
+
+    let sessionString: string | undefined = undefined;
     
     const cookies = request.headers.get('Cookie');
+    const authorization = request.headers.get('Authorization');
 
-    if (!cookies) {
-        return new Response(JSON.stringify({ error: 'no session' }), {
-            status: 401,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+    if (cookies) {
+        const cookieJar = new CookieJar(cookies);
+
+        // get session from cookie
+        sessionString = cookieJar.get('twitch_session');
+        if (!sessionString) {
+            return new Response(JSON.stringify({ error: 'no session' }), {
+                status: 401,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+        sessionString = decodeURIComponent(sessionString);
+    } else if (authorization) {
+        const parts = authorization.split(' ');
+        if (parts.length !== 2) {
+            return new Response(JSON.stringify({ error: 'invalid authorization header' }), {
+                status: 401,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+        if (parts[0].toLowerCase() !== 'bearer') {
+            return new Response(JSON.stringify({ error: 'invalid authorization header' }), {
+                status: 401,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+        sessionString = parts[1];
     }
 
-    const cookieJar = new CookieJar(cookies);
-
-    // get session from cookie
-    let sessionString = cookieJar.get('twitch_session');
     if (!sessionString) {
         return new Response(JSON.stringify({ error: 'no session' }), {
             status: 401,
@@ -31,7 +56,6 @@ export async function middleware(request: NextRequest) {
             },
         })
     }
-    sessionString = decodeURIComponent(sessionString);
 
     try {
         const session = await checkSession(sessionString, JWT_SECRET!);

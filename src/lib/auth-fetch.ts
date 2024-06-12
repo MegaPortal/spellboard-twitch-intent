@@ -4,6 +4,8 @@
 
 let loginPromise: Promise<Response> | null = null;
 
+let session: string | null = null;
+
 async function login() {
     if (loginPromise) {
         return loginPromise;
@@ -19,7 +21,10 @@ async function login() {
     loginPromise = p;
 
     try {
-        return await p;
+        const response = await p;
+        const body = await response.json();
+        session = body.session;
+        return response;
     } finally {
         loginPromise = null;
     }
@@ -27,12 +32,24 @@ async function login() {
 
 export default async function authFetch(url: string, init: RequestInit): Promise<Response> {
 
-    const response = await fetch(url, init);
+    const response = await fetch(url, {
+        ...init,
+        headers: {
+            ...init.headers,
+            'Authorization': session ? `Bearer ${session}` : '',
+        }
+    });
    
     if (response.status === 401) {
         const loginResponse = await login();
         if (loginResponse.status === 200) {
-            return await fetch(url, init);
+            return await fetch(url, {
+                ...init,
+                headers: {
+                    ...init.headers,
+                    'Authorization': session ? `Bearer ${session}` : '',
+                }
+            });
         }
     }
 
