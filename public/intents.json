@@ -1,0 +1,34 @@
+{
+    "name": "Twitch Streamer Live Checker",
+    "description": "Check if a streamer is live on Twitch by their login name.",
+    "intents": [
+        {
+            "name": "is_streamer_live_on_twitch",
+            "description": "Check if a streamer is live on Twitch by their login name.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "login_name": {
+                        "type": "string",
+                        "description": "The streamer's login name."
+                    }
+                },
+                "required": [
+                    "login_name"
+                ]
+            },
+            "async": true,
+            "link": "/?name={login_name}",
+            "example": "/?name=ninja",
+            "returns": {
+                "type": "object",
+                "properties": {
+                    "response": {
+                        "type": "string",
+                        "description": "The information of the streamer."
+                    }
+                }
+            }
+        }
+    ]
+}
