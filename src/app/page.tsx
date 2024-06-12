@@ -8,8 +8,17 @@ import { Button } from "@/components/ui/button";
 import { TwitchIcon } from "@/components/twitch-card";
 import { useTwitchData } from "./data-model";
 import { useEffect, useRef } from "react";
+import { Suspense } from "react";
 
 export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeWrapped />
+    </Suspense>
+  );
+}
+
+export function HomeWrapped() {
 
   const searchParams = useSearchParams();
 
