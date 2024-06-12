@@ -14,7 +14,7 @@ export function TwitchCard(props: {
   channel: TwitchChannel | null,
 }) {
   return (
-    <Card className="w-full max-w-sm shadow-sm overflow-hiddencursor-pointer group" onClick={() => {
+    <Card className="w-full max-w-sm shadow-sm overflow-hidden cursor-pointer group" onClick={() => {
       if (props.user?.login) {
         window.open(`https://www.twitch.tv/${props.user.login}`)
       }
