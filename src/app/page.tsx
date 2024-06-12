@@ -18,7 +18,7 @@ export default function Home() {
   );
 }
 
-export function HomeWrapped() {
+function HomeWrapped() {
 
   const searchParams = useSearchParams();
 
