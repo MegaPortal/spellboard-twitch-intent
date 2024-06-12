@@ -1,6 +1,8 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import { aesEncrypt } from '@/lib/encrypt';
 
+export const dynamic = "force-dynamic";
+
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID;
 const TWITCH_CLIENT_SECRET = process.env.TWITCH_SECRET;
 const TWITCH_ACCESS_TOKEN_ENDPOINT = 'https://id.twitch.tv/oauth2/token';

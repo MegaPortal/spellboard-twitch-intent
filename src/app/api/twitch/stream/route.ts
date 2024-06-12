@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 const TWITCH_STREAMS_ENDPOINT = 'https://api.twitch.tv/helix/streams';
 
 export async function GET(req: Request) {

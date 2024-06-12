@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 const TWITCH_CHANNEL_ENDPOINT = 'https://api.twitch.tv/helix/channels';
 
 // Logic for login, setting session content to cookie

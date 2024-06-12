@@ -1,8 +1,9 @@
+export const dynamic = "force-dynamic";
+
 const TWITCH_USER_ENDPOINT = 'https://api.twitch.tv/helix/users';
 
 // logic for login, setting session content to cookie
 export async function GET(req: Request) {
-
 
     try {
         const accessToken = req.headers.get('twitch-access-token');
