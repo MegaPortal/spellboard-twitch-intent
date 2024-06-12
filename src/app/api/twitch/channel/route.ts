@@ -29,6 +29,7 @@ export async function GET(req: Request) {
         }
 
         const channelResponse = await fetch(`${TWITCH_CHANNEL_ENDPOINT}?broadcaster_id=${broadcasterId}`, {
+            cache: 'no-cache',
             headers: {
                 'Client-ID': process.env.TWITCH_CLIENT_ID!,
                 'Authorization': `Bearer ${accessToken}`,

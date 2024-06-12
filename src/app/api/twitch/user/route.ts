@@ -31,6 +31,7 @@ export async function GET(req: Request) {
         }
 
         const userResponse = await fetch(`${TWITCH_USER_ENDPOINT}?login=${query}`, {
+            cache: 'no-cache',
             headers: {
                 'Client-ID': process.env.TWITCH_CLIENT_ID!,
                 'Authorization': `Bearer ${accessToken}`,

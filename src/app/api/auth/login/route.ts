@@ -21,6 +21,7 @@ export async function GET(req: Request) {
     }
 
     const tokenResponse = await fetch(TWITCH_ACCESS_TOKEN_ENDPOINT, {
+        cache: 'no-cache',
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

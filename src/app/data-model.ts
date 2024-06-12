@@ -58,6 +58,7 @@ export const useTwitchData = () => {
         setError(null);
         try {
             const response = await authFetch(`/api/twitch/stream?user_id=${userId}`, {
+                cache: 'no-cache',
                 credentials: 'include',
             });
             const data = await response.json();
@@ -78,6 +79,7 @@ export const useTwitchData = () => {
         setError(null);
         try {
             const response = await authFetch(`/api/twitch/channel?broadcaster_id=${broadcasterId}`, {
+                cache: 'no-cache',
                 credentials: 'include',
             });
             const data = await response.json();
@@ -98,6 +100,7 @@ export const useTwitchData = () => {
         setError(null);
         try {
             const response = await authFetch(`/api/twitch/user?query=${query}`, {
+                cache: 'no-cache',
                 credentials: 'include',
             });
             const data = await response.json();
@@ -119,6 +122,7 @@ export const useTwitchData = () => {
         setError(null);
         try {
             const response = await authFetch(`/api/twitch/user?query=${query}`, {
+                cache: 'no-cache',
                 credentials: 'include',
             });
             const data = await response.json();

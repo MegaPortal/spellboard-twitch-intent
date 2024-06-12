@@ -28,6 +28,7 @@ export async function GET(req: Request) {
         }
 
         const streamsResponse = await fetch(`${TWITCH_STREAMS_ENDPOINT}?user_id=${userId}`, {
+            cache: 'no-cache',
             headers: {
                 'Client-ID': process.env.TWITCH_CLIENT_ID!,
                 'Authorization': `Bearer ${accessToken}`,
