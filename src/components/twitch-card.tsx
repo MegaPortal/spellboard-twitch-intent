@@ -63,9 +63,9 @@ export function TwitchCard(props: {
             <div className="flex items-center gap-2 m-2">
               <EyeIcon className="w-4 h-4" />
               { props.stream ? 
-                <span className="text-xs leading-none">{ props.stream?.viewer_count } viewers</span>
+                <span className="text-xs leading-none line-clamp-1">{ props.stream?.viewer_count } viewers</span>
                 :
-                <span className="text-xs leading-none">{ props.channel?.title }</span>
+                <span className="text-xs leading-none line-clamp-1">{ props.channel?.title }</span>
               }
             </div>
           </div>
