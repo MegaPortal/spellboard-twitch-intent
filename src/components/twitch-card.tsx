@@ -55,9 +55,9 @@ export function TwitchCard(props: {
             <div className="flex items-center gap-2 m-2">
               <PlayIcon className="w-4 h-4" />
               { props.stream ? 
-                <span className="text-xs leading-none">Playing { props.stream?.game_name }</span>
+                <span className="text-xs leading-none line-clamp-1">Playing { props.stream?.game_name }</span>
                 :
-                <span className="text-xs leading-none">{ props.channel?.game_name }</span>
+                <span className="text-xs leading-none line-clamp-1">{ props.channel?.game_name }</span>
               }
             </div>
             <div className="flex items-center gap-2 m-2">
