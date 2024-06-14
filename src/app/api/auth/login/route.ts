@@ -32,7 +32,12 @@ export async function GET(req: Request) {
     const body = await tokenResponse.json();
 
     // number, the milliseconds since epoch when the token will expire
-    const expiresIn = body.expires_in;
+    const bodyExpiresIn = body.expires_in;
+
+    // no longer than 1 hour
+    const maxExpiresIn = 60 * 60;
+    const expiresIn = Math.min(bodyExpiresIn, maxExpiresIn);
+
 
     // encrypt the body into jwt token
     const loginInfo = await jwt.sign(body, JWT_SECRET);
