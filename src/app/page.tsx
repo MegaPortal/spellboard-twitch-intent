@@ -22,7 +22,7 @@ function HomeWrapped() {
 
   const searchParams = useSearchParams();
 
-  const name = searchParams.get("name");
+  const name = searchParams?.get("name");
 
   const isStarted = useRef(false);
 
