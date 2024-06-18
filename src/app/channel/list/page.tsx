@@ -24,6 +24,7 @@ function HomeWrapped() {
     const searchParams = useSearchParams();
 
     const query = searchParams?.get("query");
+    const spCallbackToken = searchParams?.get('spCallbackToken');
 
     const isStarted = useRef(false);
 
@@ -33,6 +34,30 @@ function HomeWrapped() {
         searchResults,
         searchChannel,
     } = useTwitchData();
+
+    useEffect(() => {
+        if (error) {
+            return;
+        }
+        if (!searchResults.length) {
+            return;
+        }
+        if (!spCallbackToken) {
+            return;
+        }
+
+        // text to response
+        const text = searchResults.map((item, index) => {
+            return `${item.broadcaster_login} is playing ${item.game_name} with title ${item.title} and tags ${item.tags.join(", ")}`;
+        }).join('\n\n');
+
+        window.parent.postMessage({
+            type: 'spell-response',
+            token: spCallbackToken,
+            content: text
+        }, '*');
+
+    }, [error, searchResults, spCallbackToken]);
 
     useEffect(() => {
         if (!query) {
@@ -51,7 +76,7 @@ function HomeWrapped() {
     if (!query) {
         return (
             <main className="flex flex-col items-center justify-between">
-                <div className="w-[300px] h-[300px] flex flex-row justify-center items-center">
+                <div className="w-full h-[300px] flex flex-row justify-center items-center">
                     <Button className="flex flex-row justify-center items-center">
                         <TwitchIcon className="w-4 h-4 mr-2" /> Required Query
                     </Button>
@@ -63,7 +88,7 @@ function HomeWrapped() {
     if ((loading && !searchResults.length) && !error) {
         return (
             <main className="flex min-h-screen flex-col items-center justify-between">
-                <div className="w-[300px] h-[300px] flex flex-row justify-center items-center">
+                <div className="w-full h-[300px] flex flex-row justify-center items-center">
                     <Button className="flex flex-row justify-center items-center">
                         <TwitchIcon className="w-4 h-4 mr-2" /> Loading...
                     </Button>
@@ -75,7 +100,7 @@ function HomeWrapped() {
     if ((!searchResults.length) && !error) {
         return (
             <main className="flex min-h-screen flex-col items-center justify-between">
-                <div className="w-[300px] h-[300px] flex flex-row justify-center items-center">
+                <div className="w-full h-[300px] flex flex-row justify-center items-center">
                     <Button className="flex flex-row justify-center items-center">
                         <TwitchIcon className="w-4 h-4 mr-2" /> No Results
                     </Button>
@@ -87,7 +112,7 @@ function HomeWrapped() {
     if (error) {
         return (
             <main className="flex min-h-screen flex-col items-center justify-between">
-                <div className="w-[300px] h-[300px] flex flex-row justify-center items-center">
+                <div className="w-full h-[300px] flex flex-row justify-center items-center">
                     <Button className="flex flex-row justify-center items-center" onClick={() => searchChannel(query)}>
                         <TwitchIcon className="w-4 h-4 mr-2" /> Retry
                     </Button>
@@ -99,7 +124,7 @@ function HomeWrapped() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
-            <div className="w-[300px] h-[300px] dark:bg-gray-950 bg-white">
+            <div className="w-full h-[300px] dark:bg-gray-950 bg-white">
                 {searchResults.map((channel, index) => (
                     <>
                         <TwitchCardWrapped key={index} channel={channel} />
@@ -117,7 +142,7 @@ function TwitchCardWrapped(props: {
     const { channel } = props;
 
     return (
-        <div className="w-[300px] dark:bg-gray-950">
+        <div className="w-full dark:bg-gray-950">
             <Card className="w-full max-w-sm shadow-sm overflow-hidden cursor-pointer group" onClick={() => {
                 // redirect to in the same page
                 window.location.href = `/?name=${channel.broadcaster_login}`;

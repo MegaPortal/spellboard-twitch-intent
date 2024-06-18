@@ -3,8 +3,8 @@
     "description": "Check if a streamer is live on Twitch by their login name.",
     "intents": [
         {
-            "name": "is_streamer_live_on_twitch",
-            "description": "Check if a streamer is live on Twitch by their login name.",
+            "name": "get_stream_detail_by_name",
+            "description": "Get the information of a streamer by their login name.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -31,8 +31,8 @@
             }
         },
         {
-            "name": "search_twitch_streamer",
-            "description": "Search for a streamer on Twitch by a query. for example, can be a game name or a login name.",
+            "name": "search_twitch_channels",
+            "description": "Search for a channels on Twitch by a query. for example, can be a game name or a login name.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -53,7 +53,7 @@
                 "properties": {
                     "response": {
                         "type": "string",
-                        "description": "The information of the streamers."
+                        "description": "The information of the channels."
                     }
                 }
             }
