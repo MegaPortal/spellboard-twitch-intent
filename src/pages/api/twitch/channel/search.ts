@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const TWITCH_STREAMS_ENDPOINT = 'https://api.twitch.tv/helix/streams';
+const TWITCH_CHANNEL_ENDPOINT = 'https://api.twitch.tv/helix/search/channels';
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-
+    
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'method not allowed' });
     }
@@ -19,13 +19,13 @@ export default async function handler(
         }
 
         const url = new URL(req.url!, 'http://localhost');
-        const userId = url.searchParams.get('user_id');
+        const query = url.searchParams.get('query');
 
-        if (!userId) {
-            return res.status(400).json({ error: 'invalid user_id' });
+        if (!query) {
+            return res.status(400).json({ error: 'invalid query' });
         }
 
-        const streamsResponse = await fetch(`${TWITCH_STREAMS_ENDPOINT}?user_id=${userId}`, {
+        const channelResponse = await fetch(`${TWITCH_CHANNEL_ENDPOINT}?query=${query}&first=20&live_only=true`, {
             cache: 'no-cache',
             headers: {
                 'Client-ID': process.env.TWITCH_CLIENT_ID!,
@@ -33,17 +33,17 @@ export default async function handler(
             },
         });
 
-        if (streamsResponse.status === 401) {
+        if (channelResponse.status === 401) {
             return res.status(401).json({ error: 'invalid session' });
         }
 
-        if (!streamsResponse.ok) {
-            return res.status(streamsResponse.status).json({ error: 'failed to fetch streams' });
+        if (!channelResponse.ok) {
+            return res.status(channelResponse.status).json({ error: 'failed to fetch streams' });
         }
 
-        const streamsBody = await streamsResponse.json();
+        const channelBody = await channelResponse.json();
 
-        return res.status(200).json(streamsBody);
+        return res.status(200).json(channelBody);
 
     } catch (e) {
         console.error(e);

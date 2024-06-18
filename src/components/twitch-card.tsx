@@ -79,7 +79,7 @@ export function TwitchCard(props: {
   )
 }
 
-function EyeIcon(props: React.SVGProps<SVGSVGElement>) {
+export function EyeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -100,7 +100,7 @@ function EyeIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 
-function PlayIcon(props: React.SVGProps<SVGSVGElement>) {
+export function PlayIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

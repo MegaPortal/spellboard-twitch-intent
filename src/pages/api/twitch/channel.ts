@@ -15,12 +15,7 @@ export default async function handler(
         const accessToken = req.headers['twitch-access-token'] as string;
 
         if (!accessToken) {
-            return new Response(JSON.stringify({ error: 'invalid session' }), {
-                status: 401,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            return res.status(401).json({ error: 'invalid session' });
         }
 
         const url = new URL(req.url!, 'http://localhost');

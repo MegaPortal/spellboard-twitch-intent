@@ -42,6 +42,7 @@ export interface TwitchChannel {
     title: string;
     delay: number;
     tags: string[];
+    thumbnail_url?: string,
     content_classification_labels: string[];
     is_branded_content: boolean;
 }
@@ -52,6 +53,7 @@ export const useTwitchData = () => {
     const [channel, setChannel] = useState<TwitchChannel | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [searchResults, setSearchResults] = useState<TwitchChannel[]>([]);
 
     const fetchStreams = async (userId: string) => {
         setLoading(true);
@@ -73,6 +75,27 @@ export const useTwitchData = () => {
             setLoading(false);
         }
     };
+
+    const searchChannel = async (searchQuery: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await authFetch(`/api/twitch/channel/search?query=${searchQuery}`, {
+                cache: 'no-cache',
+                credentials: 'include',
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setSearchResults(data.data);
+            } else {
+                setError(data.error || 'Failed to search channel');
+            }
+        } catch (e) {
+            setError('An error occurred while searching channel');
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const fetchChannel = async (broadcasterId: string) => {
         setLoading(true);
@@ -151,5 +174,7 @@ export const useTwitchData = () => {
         fetchUser,
         fetchChannel,
         fetchUserData,
+        searchResults,
+        searchChannel,
     };
 };

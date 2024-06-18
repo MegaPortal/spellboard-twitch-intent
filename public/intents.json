@@ -29,6 +29,34 @@
                     }
                 }
             }
+        },
+        {
+            "name": "search_twitch_streamer",
+            "description": "Search for a streamer on Twitch by a query. for example, can be a game name or a login name.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The query to search for."
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            },
+            "async": true,
+            "link": "/channel/list?query={query}",
+            "example": "/channel/list?query=ninja",
+            "returns": {
+                "type": "object",
+                "properties": {
+                    "response": {
+                        "type": "string",
+                        "description": "The information of the streamers."
+                    }
+                }
+            }
         }
     ]
 }
